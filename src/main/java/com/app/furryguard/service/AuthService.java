@@ -7,13 +7,9 @@ import com.app.furryguard.entity.dto.UserSignupDto;
 import com.app.furryguard.exceptions.EmailAlreadyExistsException;
 import com.app.furryguard.exceptions.InvalidCredentialsException;
 import com.app.furryguard.repository.UserRepository;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +19,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public User signup(UserSignupDto userSignupDto) {
+    public String signup(UserSignupDto userSignupDto) {
 
         if (userRepository.findUserByEmail(userSignupDto.getEmail()).isPresent()){
             log.warn("Email already exists: {}", userSignupDto.getEmail());
@@ -39,7 +35,9 @@ public class AuthService {
                 .dateOfBirth(userSignupDto.getDateOfBirth())
                 .build();
 
-        return userRepository.save(user);
+        userRepository.save(user);
+
+        return jwtTokenProvider.generateToken(user.getId(), user.getEmail());
     }
 
     public String login(UserLoginDto userLoginDto) {
