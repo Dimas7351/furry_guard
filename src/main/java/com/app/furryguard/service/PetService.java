@@ -4,7 +4,11 @@ import com.app.furryguard.config.JwtTokenProvider;
 import com.app.furryguard.entity.Breed;
 import com.app.furryguard.entity.Pet;
 import com.app.furryguard.entity.User;
+import com.app.furryguard.entity.dto.AgeDto;
+import com.app.furryguard.entity.dto.GetPetDto;
 import com.app.furryguard.entity.dto.PetCreateDto;
+import com.app.furryguard.enums.ActivityLevel;
+import com.app.furryguard.enums.Gender;
 import com.app.furryguard.exceptions.InvalidCredentialsException;
 import com.app.furryguard.repository.BreedRepository;
 import com.app.furryguard.repository.PetRepository;
@@ -37,8 +41,9 @@ public class PetService {
         Pet pet = Pet.builder()
                 .name(petCreateDto.getName())
                 .weight(petCreateDto.getWeight())
-                .age(petCreateDto.getAge())
-                .activityLevel(petCreateDto.getActivityLevel())
+                .gender(petCreateDto.getGender().name())
+                .age(convertAgeToWeeks(petCreateDto.getAge()))
+                .activityLevel(petCreateDto.getActivityLevel().name())
                 .recommendations(generateRecommendations(petCreateDto))
                 .breedId(breed)
                 .ownerId(user)
@@ -47,19 +52,52 @@ public class PetService {
         return petRepository.save(pet);
     }
 
-    public Pet getPet(Long petId) {
-        return petRepository.findById(petId)
+    public GetPetDto getPet(Long petId) {
+        Pet pet = petRepository.findById(petId)
                 .orElseThrow(() -> new InvalidCredentialsException("Pet not found"));
+
+        return GetPetDto.builder()
+                .name(pet.getName())
+                .gender(Gender.valueOf(pet.getGender()))
+                .age(convertToAgeDto(pet.getAge()))
+                .breed(pet.getBreedId().getName())
+                .weight(pet.getWeight())
+                .activityLevel(ActivityLevel.valueOf(pet.getActivityLevel()))
+                .recommendations(pet.getRecommendations())
+                .build();
     }
 
-    public String generateRecommendations(PetCreateDto petCreateDto){
+    public List<String> searchBreedByPattern(String pattern){
+        return breedRepository.findByNameContainingIgnoreCase(pattern).stream()
+                .map(Breed::getName)
+                .toList();
+    }
 
-        return String.format("У вашего питомца повышенный риск ожирения." +
-                "Рекомендуется снизить вес до %d кг." +
-                "Длительность ежедневных прогулок увеличить до %d минут в день." +
-                "Кормить питомца необходимо по %d г. гипоаллергенного корма 3 раза в день",
+    private String generateRecommendations(PetCreateDto petCreateDto){
+
+        return String.format("У вашего питомца повышенный риск ожирения. " +
+                "Рекомендуется снизить вес до %d кг. " +
+                "Длительность ежедневных прогулок увеличить до %d минут в день. " +
+                "Кормить питомца необходимо по %d г. гипоаллергенного корма 3 раза в день.",
                 10, 90, 70);
     }
 
+    private Integer convertAgeToWeeks(AgeDto ageDto){
+        return (int) Math.round(ageDto.getYear()*52.18+ageDto.getWeek()*4.348125+ageDto.getWeek());
+    }
+
+    private AgeDto convertToAgeDto(Integer totalWeeks) {
+        int years = totalWeeks / 52;
+        int remainingWeeksAfterYears = totalWeeks % 52;
+
+        int months = (int) (remainingWeeksAfterYears / 4.348);
+        int weeks = (int) Math.round(remainingWeeksAfterYears % 4.348);
+
+        return AgeDto.builder()
+                .year(years)
+                .month(months)
+                .week(weeks)
+                .build();
+    }
 
 }

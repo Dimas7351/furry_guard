@@ -4,6 +4,7 @@ package com.app.furryguard.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jdk.jfr.Description;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,13 +32,13 @@ public class Pet {
     private String gender;
 
     @Column(name = "weight")
-    private Integer weight;
+    private Double weight;
 
     @Column(name = "age")
     private Integer age;
 
     @Column(name = "activity_level")
-    private Integer activityLevel;
+    private String activityLevel;
 
     @Column(name = "recommendations")
     private String recommendations;
