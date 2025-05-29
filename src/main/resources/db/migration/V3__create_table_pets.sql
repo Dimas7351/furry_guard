@@ -5,9 +5,13 @@ CREATE TABLE pets (
      name VARCHAR(100) NOT NULL,
      gender VARCHAR(100),
      weight DECIMAL(5, 3),
-     age int,
+     year int,
+     month int,
+     week int,
+     date_of_birth DATE,
      activity_level VARCHAR(10),
      recommendations VARCHAR,
+     pet_walking_status VARCHAR(20),
      FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE,
      FOREIGN KEY (breed_id) REFERENCES breeds(id) ON DELETE SET NULL
 );

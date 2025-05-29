@@ -1,15 +1,15 @@
 package com.app.furryguard.repository;
 
+import com.app.furryguard.entity.File;
 import com.app.furryguard.entity.Pet;
-import com.app.furryguard.enums.PetWalkingStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface PetRepository extends JpaRepository<Pet, Long> {
+public interface FileRepository extends JpaRepository<File, Long> {
 
-    List<Pet> findAllByPetWalkingStatus(PetWalkingStatus petWalkingStatus);
+    List<File> getAllFilesByPetId(Pet pet);
 
 }

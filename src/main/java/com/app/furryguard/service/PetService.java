@@ -4,11 +4,10 @@ import com.app.furryguard.config.JwtTokenProvider;
 import com.app.furryguard.entity.Breed;
 import com.app.furryguard.entity.Pet;
 import com.app.furryguard.entity.User;
-import com.app.furryguard.entity.dto.AgeDto;
-import com.app.furryguard.entity.dto.GetPetDto;
-import com.app.furryguard.entity.dto.PetCreateDto;
+import com.app.furryguard.entity.dto.*;
 import com.app.furryguard.enums.ActivityLevel;
 import com.app.furryguard.enums.Gender;
+import com.app.furryguard.enums.PetWalkingStatus;
 import com.app.furryguard.exceptions.InvalidCredentialsException;
 import com.app.furryguard.repository.BreedRepository;
 import com.app.furryguard.repository.PetRepository;
@@ -16,10 +15,10 @@ import com.app.furryguard.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,9 +41,10 @@ public class PetService {
                 .name(petCreateDto.getName())
                 .weight(petCreateDto.getWeight())
                 .gender(petCreateDto.getGender().name())
-                .age(convertAgeToWeeks(petCreateDto.getAge()))
+                .age(petCreateDto.getAge())
                 .activityLevel(petCreateDto.getActivityLevel().name())
                 .recommendations(generateRecommendations(petCreateDto))
+                .petWalkingStatus(PetWalkingStatus.WANT_HOME)
                 .breedId(breed)
                 .ownerId(user)
                 .build();
@@ -59,11 +59,12 @@ public class PetService {
         return GetPetDto.builder()
                 .name(pet.getName())
                 .gender(Gender.valueOf(pet.getGender()))
-                .age(convertToAgeDto(pet.getAge()))
+                .age(pet.getAge())
                 .breed(pet.getBreedId().getName())
                 .weight(pet.getWeight())
                 .activityLevel(ActivityLevel.valueOf(pet.getActivityLevel()))
                 .recommendations(pet.getRecommendations())
+                .petWalkingStatus(pet.getPetWalkingStatus())
                 .build();
     }
 
@@ -72,6 +73,22 @@ public class PetService {
                 .map(Breed::getName)
                 .toList();
     }
+
+    @Transactional
+    public ResponseEntity<String> changePetWalkingStatus(ChangePetWalkingStatusDto changePetWalkingStatusDto){
+        Pet pet = petRepository.findById(changePetWalkingStatusDto.getPetId())
+                .orElseThrow(() -> new InvalidCredentialsException("Pet not found"));
+
+        pet.setPetWalkingStatus(changePetWalkingStatusDto.getPetWalkingStatus());
+        petRepository.save(pet);
+
+        return ResponseEntity.ok("Статус успешно изменен");
+    }
+
+    public List<Pet> findPetsWithParticularWalkingStatus(WalkingStatusDto walkingStatusDto){
+        return petRepository.findAllByPetWalkingStatus(walkingStatusDto.getPetWalkingStatus());
+    }
+
 
     private String generateRecommendations(PetCreateDto petCreateDto){
 

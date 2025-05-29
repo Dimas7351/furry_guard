@@ -1,13 +1,14 @@
 package com.app.furryguard.controller;
 
-import com.app.furryguard.entity.Breed;
 import com.app.furryguard.entity.Pet;
-import com.app.furryguard.entity.User;
+import com.app.furryguard.entity.dto.ChangePetWalkingStatusDto;
 import com.app.furryguard.entity.dto.GetPetDto;
 import com.app.furryguard.entity.dto.PetCreateDto;
+import com.app.furryguard.entity.dto.WalkingStatusDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -40,5 +41,19 @@ public interface PetResource {
     )
     @GetMapping("/searchBreed")
     List<String> searchBreedByPattern(@RequestParam String pattern);
+
+    @Operation(
+            summary = "Смена статуса желания прогулки",
+            description = "Изменяет статус желания питомца гулять"
+    )
+    @PatchMapping("/walkingStatus")
+    ResponseEntity<String> changePetWalkingStatus(@RequestBody ChangePetWalkingStatusDto changePetWalkingStatusDto);
+
+    @Operation(
+            summary = "Поиск всех питомцев с определенным статусом прогулки",
+            description = "Поиск питомцев у которых есть определенный статус прогулки"
+    )
+    @PostMapping("/allWithStatus")
+    List<Pet> findPetsWithParticularWalkingStatus(@RequestBody WalkingStatusDto walkingStatusDto);
 
 }

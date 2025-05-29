@@ -1,15 +1,16 @@
 package com.app.furryguard.controller.impl;
 
 import com.app.furryguard.controller.PetResource;
-import com.app.furryguard.entity.Breed;
 import com.app.furryguard.entity.Pet;
+import com.app.furryguard.entity.dto.ChangePetWalkingStatusDto;
 import com.app.furryguard.entity.dto.GetPetDto;
 import com.app.furryguard.entity.dto.PetCreateDto;
+import com.app.furryguard.entity.dto.WalkingStatusDto;
 import com.app.furryguard.service.PetService;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,6 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("/pet")
 @RequiredArgsConstructor
 public class PetRestController implements PetResource {
 
@@ -49,6 +49,16 @@ public class PetRestController implements PetResource {
     @Override
     public List<String> searchBreedByPattern(String pattern) {
         return petService.searchBreedByPattern(pattern);
+    }
+
+    @Override
+    public ResponseEntity<String> changePetWalkingStatus(ChangePetWalkingStatusDto changePetWalkingStatusDto) {
+        return petService.changePetWalkingStatus(changePetWalkingStatusDto);
+    }
+
+    @Override
+    public List<Pet> findPetsWithParticularWalkingStatus(WalkingStatusDto walkingStatusDto) {
+        return petService.findPetsWithParticularWalkingStatus(walkingStatusDto);
     }
 
 }
