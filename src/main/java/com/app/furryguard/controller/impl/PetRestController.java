@@ -2,10 +2,7 @@ package com.app.furryguard.controller.impl;
 
 import com.app.furryguard.controller.PetResource;
 import com.app.furryguard.entity.Pet;
-import com.app.furryguard.entity.dto.ChangePetWalkingStatusDto;
-import com.app.furryguard.entity.dto.GetPetDto;
-import com.app.furryguard.entity.dto.PetCreateDto;
-import com.app.furryguard.entity.dto.WalkingStatusDto;
+import com.app.furryguard.entity.dto.*;
 import com.app.furryguard.service.PetService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +49,7 @@ public class PetRestController implements PetResource {
     }
 
     @Override
-    public ResponseEntity<String> changePetWalkingStatus(ChangePetWalkingStatusDto changePetWalkingStatusDto) {
+    public WalkingAnswerDto changePetWalkingStatus(ChangePetWalkingStatusDto changePetWalkingStatusDto) {
         return petService.changePetWalkingStatus(changePetWalkingStatusDto);
     }
 

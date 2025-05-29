@@ -75,14 +75,14 @@ public class PetService {
     }
 
     @Transactional
-    public ResponseEntity<String> changePetWalkingStatus(ChangePetWalkingStatusDto changePetWalkingStatusDto){
+    public WalkingAnswerDto changePetWalkingStatus(ChangePetWalkingStatusDto changePetWalkingStatusDto){
         Pet pet = petRepository.findById(changePetWalkingStatusDto.getPetId())
                 .orElseThrow(() -> new InvalidCredentialsException("Pet not found"));
 
         pet.setPetWalkingStatus(changePetWalkingStatusDto.getPetWalkingStatus());
         petRepository.save(pet);
 
-        return ResponseEntity.ok("Статус успешно изменен");
+        return WalkingAnswerDto.builder().message("Статус успешно изменен").build();
     }
 
     public List<Pet> findPetsWithParticularWalkingStatus(WalkingStatusDto walkingStatusDto){

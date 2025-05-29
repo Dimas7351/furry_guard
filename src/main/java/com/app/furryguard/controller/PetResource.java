@@ -1,10 +1,7 @@
 package com.app.furryguard.controller;
 
 import com.app.furryguard.entity.Pet;
-import com.app.furryguard.entity.dto.ChangePetWalkingStatusDto;
-import com.app.furryguard.entity.dto.GetPetDto;
-import com.app.furryguard.entity.dto.PetCreateDto;
-import com.app.furryguard.entity.dto.WalkingStatusDto;
+import com.app.furryguard.entity.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -46,8 +43,8 @@ public interface PetResource {
             summary = "Смена статуса желания прогулки",
             description = "Изменяет статус желания питомца гулять"
     )
-    @PatchMapping("/walkingStatus")
-    ResponseEntity<String> changePetWalkingStatus(@RequestBody ChangePetWalkingStatusDto changePetWalkingStatusDto);
+    @PostMapping("/walkingStatus")
+    WalkingAnswerDto changePetWalkingStatus(@RequestBody ChangePetWalkingStatusDto changePetWalkingStatusDto);
 
     @Operation(
             summary = "Поиск всех питомцев с определенным статусом прогулки",
