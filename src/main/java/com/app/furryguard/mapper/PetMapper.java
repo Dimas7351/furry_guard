@@ -23,6 +23,7 @@ public class PetMapper {
 
         return GetAllPetsWithParticularWalkingStatusDto.builder()
                 .petId(pet.getId())
+                .name(pet.getName())
                 .petWalkingStatus(pet.getPetWalkingStatus())
                 .breed(pet.getBreedId().getName())
                 .gender(pet.getGender())
