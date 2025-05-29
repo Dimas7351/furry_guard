@@ -2,6 +2,7 @@ package com.app.furryguard.entity;
 
 
 import com.app.furryguard.entity.dto.AgeDto;
+import com.app.furryguard.enums.Gender;
 import com.app.furryguard.enums.PetWalkingStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -30,8 +31,9 @@ public class Pet {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "gender", nullable = false)
-    private String gender;
+    private Gender gender;
 
     @Column(name = "weight")
     private Double weight;

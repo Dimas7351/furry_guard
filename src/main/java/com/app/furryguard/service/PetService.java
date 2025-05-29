@@ -9,13 +9,13 @@ import com.app.furryguard.enums.ActivityLevel;
 import com.app.furryguard.enums.Gender;
 import com.app.furryguard.enums.PetWalkingStatus;
 import com.app.furryguard.exceptions.InvalidCredentialsException;
+import com.app.furryguard.mapper.PetMapper;
 import com.app.furryguard.repository.BreedRepository;
 import com.app.furryguard.repository.PetRepository;
 import com.app.furryguard.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +28,7 @@ public class PetService {
     private final PetRepository petRepository;
     private final UserRepository userRepository;
     private final BreedRepository breedRepository;
+    private final PetMapper petMapper;
 
     @Transactional
     public Pet createPet(PetCreateDto petCreateDto) {
@@ -40,7 +41,7 @@ public class PetService {
         Pet pet = Pet.builder()
                 .name(petCreateDto.getName())
                 .weight(petCreateDto.getWeight())
-                .gender(petCreateDto.getGender().name())
+                .gender(petCreateDto.getGender())
                 .age(petCreateDto.getAge())
                 .activityLevel(petCreateDto.getActivityLevel().name())
                 .recommendations(generateRecommendations(petCreateDto))
@@ -58,7 +59,7 @@ public class PetService {
 
         return GetPetDto.builder()
                 .name(pet.getName())
-                .gender(Gender.valueOf(pet.getGender()))
+                .gender(pet.getGender())
                 .age(pet.getAge())
                 .breed(pet.getBreedId().getName())
                 .weight(pet.getWeight())
@@ -85,8 +86,13 @@ public class PetService {
         return WalkingAnswerDto.builder().message("Статус успешно изменен").build();
     }
 
-    public List<Pet> findPetsWithParticularWalkingStatus(WalkingStatusDto walkingStatusDto){
-        return petRepository.findAllByPetWalkingStatus(walkingStatusDto.getPetWalkingStatus());
+    public List<GetAllPetsWithParticularWalkingStatusDto> findPetsWithParticularWalkingStatus(WalkingStatusDto walkingStatusDto){
+
+        var petList = petRepository.findAllByPetWalkingStatus(walkingStatusDto.getPetWalkingStatus());
+
+        return petList.stream()
+                .map(petMapper::mapToGetAllPetsWithParticularWalkingStatusDto)
+                .toList();
     }
 
 

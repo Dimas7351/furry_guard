@@ -54,7 +54,7 @@ public class PetRestController implements PetResource {
     }
 
     @Override
-    public List<Pet> findPetsWithParticularWalkingStatus(WalkingStatusDto walkingStatusDto) {
+    public List<GetAllPetsWithParticularWalkingStatusDto> findPetsWithParticularWalkingStatus(WalkingStatusDto walkingStatusDto) {
         return petService.findPetsWithParticularWalkingStatus(walkingStatusDto);
     }
 

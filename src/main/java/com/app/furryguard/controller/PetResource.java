@@ -51,6 +51,6 @@ public interface PetResource {
             description = "Поиск питомцев у которых есть определенный статус прогулки"
     )
     @PostMapping("/allWithStatus")
-    List<Pet> findPetsWithParticularWalkingStatus(@RequestBody WalkingStatusDto walkingStatusDto);
+    List<GetAllPetsWithParticularWalkingStatusDto> findPetsWithParticularWalkingStatus(@RequestBody WalkingStatusDto walkingStatusDto);
 
 }
