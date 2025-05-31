@@ -5,12 +5,18 @@ import com.app.furryguard.entity.Breed;
 import com.app.furryguard.entity.Pet;
 import com.app.furryguard.entity.User;
 import com.app.furryguard.entity.dto.*;
+import com.app.furryguard.entity.dto.petDtos.AgeDto;
+import com.app.furryguard.entity.dto.petDtos.GetAllPetsWithParticularWalkingStatusDto;
+import com.app.furryguard.entity.dto.petDtos.GetPetDto;
+import com.app.furryguard.entity.dto.petDtos.PetCreateDto;
 import com.app.furryguard.enums.ActivityLevel;
-import com.app.furryguard.enums.Gender;
 import com.app.furryguard.enums.PetWalkingStatus;
+import com.app.furryguard.enums.VaccinationType;
 import com.app.furryguard.exceptions.InvalidCredentialsException;
+import com.app.furryguard.mapper.FileMapper;
 import com.app.furryguard.mapper.PetMapper;
 import com.app.furryguard.repository.BreedRepository;
+import com.app.furryguard.repository.FileRepository;
 import com.app.furryguard.repository.PetRepository;
 import com.app.furryguard.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -19,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +36,8 @@ public class PetService {
     private final UserRepository userRepository;
     private final BreedRepository breedRepository;
     private final PetMapper petMapper;
+    private final FileRepository fileRepository;
+    private final FileMapper fileMapper;
 
     @Transactional
     public Pet createPet(PetCreateDto petCreateDto) {
@@ -45,6 +54,7 @@ public class PetService {
                 .age(petCreateDto.getAge())
                 .activityLevel(petCreateDto.getActivityLevel().name())
                 .recommendations(generateRecommendations(petCreateDto))
+                .hasRecommendations(getRandomBoolean())
                 .petWalkingStatus(PetWalkingStatus.WANT_HOME)
                 .breedId(breed)
                 .ownerId(user)
@@ -64,14 +74,22 @@ public class PetService {
                 .breed(pet.getBreedId().getName())
                 .weight(pet.getWeight())
                 .activityLevel(ActivityLevel.valueOf(pet.getActivityLevel()))
-                .recommendations(pet.getRecommendations())
+                .recommendations(pet.getRecommendations() + generateVaccinationRecommendations())
                 .petWalkingStatus(pet.getPetWalkingStatus())
+                .vaccinations("Вакцины ееее")
+                .hasRecommendations(getRandomBoolean())
+//                .files(fileRepository.getAllFilesByPetId(pet).stream()
+//                        .map(fileMapper::mapToGetFileDto)
+//                        .toList())
                 .build();
     }
 
     public List<String> searchBreedByPattern(String pattern){
+        if (pattern == null)
+            pattern = "";
         return breedRepository.findByNameContainingIgnoreCase(pattern).stream()
                 .map(Breed::getName)
+                .sorted()
                 .toList();
     }
 
@@ -105,8 +123,32 @@ public class PetService {
                 10, 90, 70);
     }
 
-    private Integer convertAgeToWeeks(AgeDto ageDto){
-        return (int) Math.round(ageDto.getYear()*52.18+ageDto.getWeek()*4.348125+ageDto.getWeek());
+    private String generateVaccinationRecommendations(){
+
+        String vaccinations_descriptions = String.format("\nНаименования вакцин:\n " +
+                "1. %s (%s)\n" +
+                "2. %s (%s)\n" +
+                "3. %s (%s)\n" +
+                "4. %s (%s)\n" +
+                "5. %s (%s)\n" +
+                "6. %s (%s)\n",
+                VaccinationType.D, VaccinationType.D.getDescription(),
+                VaccinationType.H, VaccinationType.H.getDescription(),
+                VaccinationType.P, VaccinationType.P.getDescription(),
+                VaccinationType.Pi, VaccinationType.Pi.getDescription(),
+                VaccinationType.L, VaccinationType.L.getDescription(),
+                VaccinationType.R, VaccinationType.R.getDescription());
+
+        return vaccinations_descriptions + "Рекомендации по вакцинации:\n" +
+                "Подготовка собаки:\n" +
+                "\n" +
+                "За 2 недели до прививки нужно провести противопаразитарную обработку, в том числе дегельминтизацию.\n" +
+                "В течение 7 дней до вакцинации ежедневно измерять температуру тела собаки.\n" +
+                "Исключить на несколько дней до процедуры контакты с другими животными.";
+    }
+
+    private Integer convertAgeToWeeksFloor(AgeDto ageDto){
+        return (int) Math.floor(ageDto.getYear()*52.18+ageDto.getWeek()*4.348125+ageDto.getWeek());
     }
 
     private AgeDto convertToAgeDto(Integer totalWeeks) {
@@ -121,6 +163,11 @@ public class PetService {
                 .month(months)
                 .week(weeks)
                 .build();
+    }
+
+    private boolean getRandomBoolean() {
+        Random random = new Random();
+        return random.nextBoolean();
     }
 
 }

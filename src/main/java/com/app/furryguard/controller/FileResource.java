@@ -1,7 +1,7 @@
 package com.app.furryguard.controller;
 
 import com.app.furryguard.entity.File;
-import com.app.furryguard.entity.dto.AddFileDto;
+import com.app.furryguard.entity.dto.fileDtos.AddFileDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

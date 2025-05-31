@@ -1,4 +1,4 @@
-package com.app.furryguard.entity.dto;
+package com.app.furryguard.entity.dto.userDtos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.time.Instant;
 import java.time.LocalDate;
 
 @Data

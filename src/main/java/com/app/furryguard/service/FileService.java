@@ -2,7 +2,7 @@ package com.app.furryguard.service;
 
 import com.app.furryguard.entity.File;
 import com.app.furryguard.entity.Pet;
-import com.app.furryguard.entity.dto.AddFileDto;
+import com.app.furryguard.entity.dto.fileDtos.AddFileDto;
 import com.app.furryguard.exceptions.InvalidCredentialsException;
 import com.app.furryguard.mapper.FileMapper;
 import com.app.furryguard.repository.FileRepository;

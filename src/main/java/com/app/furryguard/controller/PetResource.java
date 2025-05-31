@@ -2,10 +2,12 @@ package com.app.furryguard.controller;
 
 import com.app.furryguard.entity.Pet;
 import com.app.furryguard.entity.dto.*;
+import com.app.furryguard.entity.dto.petDtos.GetAllPetsWithParticularWalkingStatusDto;
+import com.app.furryguard.entity.dto.petDtos.GetPetDto;
+import com.app.furryguard.entity.dto.petDtos.PetCreateDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +24,7 @@ public interface PetResource {
     )
     @PostMapping
     Pet createPet(@Valid
-    PetCreateDto petCreateDto,
+                  PetCreateDto petCreateDto,
     BindingResult bindingResult) throws BindException;
 
     @Operation(
@@ -37,7 +39,7 @@ public interface PetResource {
             description = "Поиск породы по одному или нескольким символам"
     )
     @GetMapping("/searchBreed")
-    List<String> searchBreedByPattern(@RequestParam String pattern);
+    List<String> searchBreedByPattern(@RequestParam(required = false) String pattern);
 
     @Operation(
             summary = "Смена статуса желания прогулки",

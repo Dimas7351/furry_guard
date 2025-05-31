@@ -1,4 +1,4 @@
-package com.app.furryguard.entity.dto;
+package com.app.furryguard.entity.dto.petDtos;
 
 import com.app.furryguard.enums.ActivityLevel;
 import com.app.furryguard.enums.Gender;

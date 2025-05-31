@@ -1,4 +1,4 @@
-package com.app.furryguard.entity.dto;
+package com.app.furryguard.entity.dto.userDtos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Pattern;
@@ -7,31 +7,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDate;
-import java.util.Date;
-
 @Data
+@Schema
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Schema(name = "UserSignupDto")
-public class UserSignupDto {
+public class UserLoginDto {
 
-    private String firstName;
-
-    private String surname;
-
-    private String lastName;
-
+    @Schema(example = "dogWithPets@gmail.com")
     @Pattern(
             regexp = "^[a-zA-Z0-9.-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
             message = "Некорректный формат адреса электронной почты}"
     )
-    @Schema(example = "dogWithPets@gmail.com")
     private String email;
 
     private String password;
-
-    private LocalDate dateOfBirth;
 
 }

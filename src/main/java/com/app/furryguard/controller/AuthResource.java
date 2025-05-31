@@ -1,7 +1,7 @@
 package com.app.furryguard.controller;
 
-import com.app.furryguard.entity.dto.UserLoginDto;
-import com.app.furryguard.entity.dto.UserSignupDto;
+import com.app.furryguard.entity.dto.userDtos.UserLoginDto;
+import com.app.furryguard.entity.dto.userDtos.UserSignupDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -2,8 +2,6 @@ package com.app.furryguard.controller;
 
 import com.app.furryguard.entity.Pet;
 import com.app.furryguard.entity.User;
-import com.app.furryguard.entity.dto.UserLoginDto;
-import com.app.furryguard.entity.dto.UserSignupDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;

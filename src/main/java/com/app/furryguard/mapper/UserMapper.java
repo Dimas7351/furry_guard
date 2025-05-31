@@ -1,17 +1,10 @@
 package com.app.furryguard.mapper;
 
 
-import com.app.furryguard.entity.File;
-import com.app.furryguard.entity.Pet;
 import com.app.furryguard.entity.User;
-import com.app.furryguard.entity.dto.AddFileDto;
-import com.app.furryguard.entity.dto.UserShortDto;
-import com.app.furryguard.exceptions.InvalidCredentialsException;
-import com.app.furryguard.repository.PetRepository;
+import com.app.furryguard.entity.dto.userDtos.UserShortDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.time.Instant;
 
 @Component
 @RequiredArgsConstructor
