@@ -129,7 +129,9 @@ public class PetService {
                 10, 90, 70);
     }
 
-    private String generateVaccinationRecommendations(Pet pet){
+    private VaccinationsDto generateVaccinationRecommendations(Pet pet){
+
+        VaccinationsDto vaccinationsDto = new VaccinationsDto();
 
         String vaccinations_descriptions = String.format("\nНаименования вакцин:\n " +
                 "1. %s (%s)\n" +
@@ -137,7 +139,12 @@ public class PetService {
                 "3. %s (%s)\n" +
                 "4. %s (%s)\n" +
                 "5. %s (%s)\n" +
-                "6. %s (%s)\n",
+                "6. %s (%s)\n" +
+                "\"Рекомендации по вакцинации:\n" +
+                "\"Подготовка собаки:\n" +
+                "За 2 недели до прививки нужно провести противопаразитарную обработку, в том числе дегельминтизацию.\n" +
+                "В течение 7 дней до вакцинации ежедневно измерять температуру тела собаки.\n" +
+                "Исключить на несколько дней до процедуры контакты с другими животными.\n",
                 VaccinationType.D, VaccinationType.D.getDescription(),
                 VaccinationType.H, VaccinationType.H.getDescription(),
                 VaccinationType.P, VaccinationType.P.getDescription(),
@@ -145,17 +152,22 @@ public class PetService {
                 VaccinationType.L, VaccinationType.L.getDescription(),
                 VaccinationType.R, VaccinationType.R.getDescription());
 
+        vaccinationsDto.setCommonHeader("Общие рекомендации");
+        vaccinationsDto.setCommon(vaccinations_descriptions);
+
         List<VaccinationType> nowVaccinationTypes = recommendationService.getVaccinationRecommendations(pet);
         String nowVaccinations = nowVaccinationTypes.toString();
 
+        vaccinationsDto.setPreviousHeader("Прошедшие вакцины");
+        vaccinationsDto.setPrevious("Ну короче вот списочек: \n первая, а может и в строку, ну чекни");
 
-        return vaccinations_descriptions + "Рекомендации по вакцинации:\n" +
-                "Подготовка собаки:\n" +
-                "\n" +
-                "За 2 недели до прививки нужно провести противопаразитарную обработку, в том числе дегельминтизацию.\n" +
-                "В течение 7 дней до вакцинации ежедневно измерять температуру тела собаки.\n" +
-                "Исключить на несколько дней до процедуры контакты с другими животными. \n\n\r " +
-                "\nНа данный момент необходимо выполнить следующие прививки: " + nowVaccinations;
+        vaccinationsDto.setCurrentHeader("Текущие необходимые вакцины");
+        vaccinationsDto.setCurrent(nowVaccinations);
+
+        vaccinationsDto.setNextHeader("Предстоящие вакцины");
+        vaccinationsDto.setNext("Ну чисто для теста");
+
+        return vaccinationsDto;
     }
 
     private Integer convertAgeToWeeksFloor(AgeDto ageDto){

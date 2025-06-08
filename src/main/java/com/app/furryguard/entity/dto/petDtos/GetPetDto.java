@@ -1,5 +1,6 @@
 package com.app.furryguard.entity.dto.petDtos;
 
+import com.app.furryguard.entity.dto.VaccinationsDto;
 import com.app.furryguard.entity.dto.fileDtos.GetFileDto;
 import com.app.furryguard.enums.ActivityLevel;
 import com.app.furryguard.enums.Gender;
@@ -47,7 +48,7 @@ public class GetPetDto {
     private Boolean hasRecommendations;
 
     @Schema(description = "График вакцинаций")
-    private String vaccinations;
+    private VaccinationsDto vaccinations;
 
     @Schema(description = "Статус желания прогулки", allowableValues = {"WANT_TO_WALK", "WANT_HOME"})
     private PetWalkingStatus petWalkingStatus;
