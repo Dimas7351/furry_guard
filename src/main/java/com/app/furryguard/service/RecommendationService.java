@@ -1,16 +1,15 @@
 package com.app.furryguard.service;
 
-import com.app.furryguard.entity.Breed;
-import com.app.furryguard.entity.BreedWeight;
-import com.app.furryguard.entity.File;
-import com.app.furryguard.entity.Pet;
+import com.app.furryguard.entity.*;
 import com.app.furryguard.entity.dto.fileDtos.AddFileDto;
 import com.app.furryguard.enums.ActivityLevel;
+import com.app.furryguard.enums.VaccinationType;
 import com.app.furryguard.exceptions.InvalidCredentialsException;
 import com.app.furryguard.mapper.FileMapper;
 import com.app.furryguard.repository.BreedRepository;
 import com.app.furryguard.repository.FileRepository;
 import com.app.furryguard.repository.PetRepository;
+import com.app.furryguard.repository.VaccinationRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +24,7 @@ import java.util.List;
 public class RecommendationService {
 
     private final BreedRepository breedRepository;
+    private final VaccinationRepository vaccinationRepository;
 
     public static final double WEIGHT_COEF = 0.3;
 
@@ -53,6 +53,17 @@ public class RecommendationService {
             difference = -1*(min_weight-weight)/min_weight;
 
         return difference;
+    }
+
+    public List<VaccinationType> getVaccinationRecommendations(Pet pet){
+        var ageWeeks = pet.getAge().getWeek();
+
+        List<Vaccination> nowVaccinations = vaccinationRepository.getVaccinationByWeeksPeriod(ageWeeks);
+        System.out.println(nowVaccinations);
+
+        return nowVaccinations.stream()
+                .map(Vaccination::getVaccinationType)
+                .toList();
     }
 
     // Суточная потребность Калории в Состоянии Покоя

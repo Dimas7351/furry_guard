@@ -72,10 +72,6 @@ public class Pet {
 
     @OneToMany(mappedBy = "petId")
     @JsonManagedReference
-    private List<Walk> walks;
-
-    @OneToMany(mappedBy = "petId")
-    @JsonManagedReference
     private List<File> files;
 
 }

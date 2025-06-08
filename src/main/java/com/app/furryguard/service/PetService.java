@@ -4,6 +4,7 @@ import com.app.furryguard.config.JwtTokenProvider;
 import com.app.furryguard.entity.Breed;
 import com.app.furryguard.entity.Pet;
 import com.app.furryguard.entity.User;
+import com.app.furryguard.entity.Vaccination;
 import com.app.furryguard.entity.dto.*;
 import com.app.furryguard.entity.dto.petDtos.AgeDto;
 import com.app.furryguard.entity.dto.petDtos.GetAllPetsWithParticularWalkingStatusDto;
@@ -81,7 +82,7 @@ public class PetService {
                 .activityLevel(ActivityLevel.valueOf(pet.getActivityLevel()))
                 .recommendations(hasRecommendations ? pet.getRecommendations() : "У вашего питомца всё в порядке. Рекомендации не требуются")
                 .petWalkingStatus(pet.getPetWalkingStatus())
-                .vaccinations(generateVaccinationRecommendations())
+                .vaccinations(generateVaccinationRecommendations(pet))
                 .hasRecommendations(hasRecommendations)
 //                .files(fileRepository.getAllFilesByPetId(pet).stream()
 //                        .map(fileMapper::mapToGetFileDto)
@@ -128,7 +129,7 @@ public class PetService {
                 10, 90, 70);
     }
 
-    private String generateVaccinationRecommendations(){
+    private String generateVaccinationRecommendations(Pet pet){
 
         String vaccinations_descriptions = String.format("\nНаименования вакцин:\n " +
                 "1. %s (%s)\n" +
@@ -144,12 +145,17 @@ public class PetService {
                 VaccinationType.L, VaccinationType.L.getDescription(),
                 VaccinationType.R, VaccinationType.R.getDescription());
 
+        List<VaccinationType> nowVaccinationTypes = recommendationService.getVaccinationRecommendations(pet);
+        String nowVaccinations = nowVaccinationTypes.toString();
+
+
         return vaccinations_descriptions + "Рекомендации по вакцинации:\n" +
                 "Подготовка собаки:\n" +
                 "\n" +
                 "За 2 недели до прививки нужно провести противопаразитарную обработку, в том числе дегельминтизацию.\n" +
                 "В течение 7 дней до вакцинации ежедневно измерять температуру тела собаки.\n" +
-                "Исключить на несколько дней до процедуры контакты с другими животными.";
+                "Исключить на несколько дней до процедуры контакты с другими животными. \n\n\r " +
+                "\nНа данный момент необходимо выполнить следующие прививки: " + nowVaccinations;
     }
 
     private Integer convertAgeToWeeksFloor(AgeDto ageDto){
