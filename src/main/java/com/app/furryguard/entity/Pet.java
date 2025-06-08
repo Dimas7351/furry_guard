@@ -6,6 +6,7 @@ import com.app.furryguard.enums.Gender;
 import com.app.furryguard.enums.PetWalkingStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,6 +52,8 @@ public class Pet {
     private String recommendations;
 
     @Column(name = "has_recommendations")
+    @Schema(description = "Статус присутствия рекомендаций: true - есть рекомендации" +
+            "(статус - Есть рекомендации), false (Здоров)")
     private boolean hasRecommendations;
 
     @Enumerated(EnumType.STRING)

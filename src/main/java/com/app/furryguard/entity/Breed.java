@@ -1,6 +1,7 @@
 package com.app.furryguard.entity;
 
 
+import com.app.furryguard.enums.ActivityLevel;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,7 @@ public class Breed {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -36,4 +37,8 @@ public class Breed {
     @JsonManagedReference
     @OneToMany(mappedBy = "breedId")
     private List<Pet> pets;
+
+    @OneToMany(mappedBy = "breedId")
+    @JsonManagedReference
+    private List<BreedWeight> breedWeights;
 }

@@ -128,7 +128,7 @@ INSERT INTO breeds (name, size, avg_activity) VALUES
 ('Поденко ибиценко', 'medium', 'high'),
 ('Русско-европейская лайка', 'medium', 'high'),
 ('Самоедская собака', 'medium', 'high'),
-('Сиба', 'medium', 'high'),
+('Сиба-ину', 'medium', 'high'),
 ('Сибирский хаски', 'medium', 'high'),
 ('Тайский риджбек', 'medium', 'high'),
 ('Фараонова собака', 'medium', 'high'),

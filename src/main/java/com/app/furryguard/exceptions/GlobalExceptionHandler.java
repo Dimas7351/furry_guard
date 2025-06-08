@@ -9,11 +9,12 @@
     import org.springframework.http.converter.HttpMessageNotReadableException;
     import org.springframework.validation.BindException;
     import org.springframework.validation.ObjectError;
+    import org.springframework.web.bind.MethodArgumentNotValidException;
     import org.springframework.web.bind.annotation.ExceptionHandler;
     import org.springframework.web.bind.annotation.RestControllerAdvice;
 
     import java.time.ZonedDateTime;
-    import java.util.Objects;
+    import java.util.*;
 
     @RestControllerAdvice
     @Slf4j
@@ -72,8 +73,32 @@
                     .body(HttpStatus.valueOf(500).getReasonPhrase() + " : " + ex.getMessage());
         }
 
+//        @ExceptionHandler(MethodArgumentNotValidException.class)
+//        public ResponseEntity<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+//            log.error(ex.getMessage(), ex.getCause());
+//            return ResponseEntity
+//                    .status(HttpStatus.BAD_REQUEST)
+//                    .body(HttpStatus.BAD_REQUEST.getReasonPhrase() + " : " + ex.getMessage());
+//        }
+
+        @ExceptionHandler(MethodArgumentNotValidException.class)
+        public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException ex) {
+            Map<String, List<String>> errors = new HashMap<>();
+            ex.getBindingResult().getFieldErrors().forEach(error -> {
+                errors.computeIfAbsent(error.getField(), key -> new ArrayList<>())
+                        .add(error.getDefaultMessage());
+            });
+
+            return ResponseEntity.badRequest().body(Map.of(
+                    "status", "BAD REQUEST",
+                    "message", "Ошибка валидации",
+                    "errors", errors
+            ));
+        }
+
         @ExceptionHandler(Exception.class)
         public ResponseEntity<String> handleOtherExceptions(Exception ex) {
+            log.error(ex.getMessage(), ex.getCause());
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase() + " : " + ex.getMessage());

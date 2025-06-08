@@ -36,6 +36,7 @@ public class PetService {
     private final UserRepository userRepository;
     private final BreedRepository breedRepository;
     private final PetMapper petMapper;
+    private final RecommendationService recommendationService;
     private final FileRepository fileRepository;
     private final FileMapper fileMapper;
 
@@ -60,12 +61,16 @@ public class PetService {
                 .ownerId(user)
                 .build();
 
+        System.out.println(recommendationService.getWeightDifference(pet));
+
         return petRepository.save(pet);
     }
 
     public GetPetDto getPet(Long petId) {
         Pet pet = petRepository.findById(petId)
                 .orElseThrow(() -> new InvalidCredentialsException("Pet not found"));
+
+        boolean hasRecommendations = getRandomBoolean();
 
         return GetPetDto.builder()
                 .name(pet.getName())
@@ -74,10 +79,10 @@ public class PetService {
                 .breed(pet.getBreedId().getName())
                 .weight(pet.getWeight())
                 .activityLevel(ActivityLevel.valueOf(pet.getActivityLevel()))
-                .recommendations(pet.getRecommendations() + generateVaccinationRecommendations())
+                .recommendations(hasRecommendations ? pet.getRecommendations() : "У вашего питомца всё в порядке. Рекомендации не требуются")
                 .petWalkingStatus(pet.getPetWalkingStatus())
-                .vaccinations("Вакцины ееее")
-                .hasRecommendations(getRandomBoolean())
+                .vaccinations(generateVaccinationRecommendations())
+                .hasRecommendations(hasRecommendations)
 //                .files(fileRepository.getAllFilesByPetId(pet).stream()
 //                        .map(fileMapper::mapToGetFileDto)
 //                        .toList())

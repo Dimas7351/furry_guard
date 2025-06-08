@@ -4,6 +4,7 @@ import com.app.furryguard.entity.dto.userDtos.UserLoginDto;
 import com.app.furryguard.entity.dto.userDtos.UserSignupDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,6 @@ public interface AuthResource {
             description = "Выполняет регистрацию пользователя по логину, паролю и email."
     )
     @PostMapping("/signup")
-    String signup(@RequestBody UserSignupDto userSignupDto);
+    String signup(@RequestBody @Valid UserSignupDto userSignupDto);
 
 }
