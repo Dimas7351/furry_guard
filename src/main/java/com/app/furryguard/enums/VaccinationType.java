@@ -10,7 +10,7 @@ public enum VaccinationType {
     P("Паровирусный энтерит"),
     Pi("Парагрипп"),
     L("Лептоспироз"),
-    R("Бещенство");
+    R("Бешенство");
 
     private final String description;
 

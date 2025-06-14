@@ -1,0 +1,1 @@
+ALTER TABLE breeds ADD COLUMN overweight_risk decimal(3,2)

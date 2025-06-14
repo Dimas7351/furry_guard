@@ -26,10 +26,17 @@ public class PetCreateDto {
     @Schema(description = "Объект возраста")
     private AgeDto age;
 
+    @Schema(description = "Дата рождения")
     private LocalDate dateOfBirth;
 
     @Schema(description = "Вес животного в десятичной дроби", example = "3.53")
     private Double weight;
+
+    @Schema(description = "Количество граммов корма в день")
+    private Integer feed;
+
+    @Schema(description = "Точное время прогулки в минутах")
+    private Integer exactActivity;
 
     @Schema(description = "Уровень активности животного", allowableValues = {"LOW", "MEDIUM", "HIGH"})
     private ActivityLevel activityLevel;

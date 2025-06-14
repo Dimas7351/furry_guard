@@ -53,6 +53,12 @@ public class GetPetDto {
     @Schema(description = "Статус желания прогулки", allowableValues = {"WANT_TO_WALK", "WANT_HOME"})
     private PetWalkingStatus petWalkingStatus;
 
+    @Schema(description = "Количество граммов корма в день")
+    private Integer feed;
+
+    @Schema(description = "Точное время прогулки в минутах")
+    private Integer exactActivity;
+
     @Schema(description = "Файлы питомца")
     private List<GetFileDto> files;
 

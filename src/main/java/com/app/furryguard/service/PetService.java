@@ -60,6 +60,8 @@ public class PetService {
                 .petWalkingStatus(PetWalkingStatus.WANT_HOME)
                 .breedId(breed)
                 .ownerId(user)
+                .feed(petCreateDto.getFeed())
+                .exactActivity(petCreateDto.getExactActivity())
                 .build();
 
         System.out.println(recommendationService.getWeightDifference(pet));
@@ -71,7 +73,7 @@ public class PetService {
         Pet pet = petRepository.findById(petId)
                 .orElseThrow(() -> new InvalidCredentialsException("Pet not found"));
 
-        boolean hasRecommendations = getRandomBoolean();
+        boolean hasRecommendations = true;
 
         return GetPetDto.builder()
                 .name(pet.getName())
@@ -84,9 +86,8 @@ public class PetService {
                 .petWalkingStatus(pet.getPetWalkingStatus())
                 .vaccinations(generateVaccinationRecommendations(pet))
                 .hasRecommendations(hasRecommendations)
-//                .files(fileRepository.getAllFilesByPetId(pet).stream()
-//                        .map(fileMapper::mapToGetFileDto)
-//                        .toList())
+                .feed(pet.getFeed())
+                .exactActivity(pet.getExactActivity())
                 .build();
     }
 
@@ -140,11 +141,10 @@ public class PetService {
                 "4. %s (%s)\n" +
                 "5. %s (%s)\n" +
                 "6. %s (%s)\n" +
-                "\"Рекомендации по вакцинации:\n" +
-                "\"Подготовка собаки:\n" +
-                "За 2 недели до прививки нужно провести противопаразитарную обработку, в том числе дегельминтизацию.\n" +
-                "В течение 7 дней до вакцинации ежедневно измерять температуру тела собаки.\n" +
-                "Исключить на несколько дней до процедуры контакты с другими животными.\n",
+                "\nПодготовка питомца к вакцинации:\n" +
+                "1. За 2 недели до прививки нужно провести противопаразитарную обработку, в том числе дегельминтизацию.\n" +
+                "2. В течение 7 дней до вакцинации ежедневно измерять температуру тела собаки.\n" +
+                "3. Исключить на несколько дней до процедуры контакты с другими животными.\n",
                 VaccinationType.D, VaccinationType.D.getDescription(),
                 VaccinationType.H, VaccinationType.H.getDescription(),
                 VaccinationType.P, VaccinationType.P.getDescription(),
@@ -159,13 +159,26 @@ public class PetService {
         String nowVaccinations = nowVaccinationTypes.toString();
 
         vaccinationsDto.setPreviousHeader("Прошедшие вакцины");
-        vaccinationsDto.setPrevious("Ну короче вот списочек: \n первая, а может и в строку, ну чекни");
+        vaccinationsDto.setPrevious(String.format(
+                "1. %s (%s) - в возрасте 5-7 недель\n" +
+                "2. %s (%s) - в возрасте 5-7 недель\n" +
+                "3. %s (%s) - в возрасте 5-7 недель\n",
+                VaccinationType.H, VaccinationType.H.getDescription(),
+                VaccinationType.P, VaccinationType.P.getDescription(),
+                VaccinationType.Pi, VaccinationType.Pi.getDescription()));
 
-        vaccinationsDto.setCurrentHeader("Текущие необходимые вакцины");
-        vaccinationsDto.setCurrent(nowVaccinations);
+        vaccinationsDto.setCurrentHeader("Текущие вакцины");
+        vaccinationsDto.setCurrent(String.format(
+                        "1. %s (%s)\n" +
+                        "2. %s (%s)\n" +
+                        "Также необходимо проконсультироваться с ветеринаром о возможности выполнить прошедшие вакцины",
+                VaccinationType.Pi, VaccinationType.Pi.getDescription(),
+                VaccinationType.L, VaccinationType.L.getDescription()));
 
         vaccinationsDto.setNextHeader("Предстоящие вакцины");
-        vaccinationsDto.setNext("Ну чисто для теста");
+        vaccinationsDto.setNext(String.format(
+                "1. %s (%s) - через 2 месяца",
+                VaccinationType.R, VaccinationType.R.getDescription()));
 
         return vaccinationsDto;
     }

@@ -10,9 +10,11 @@ CREATE TABLE pets (
      week int,
      date_of_birth DATE,
      activity_level VARCHAR(10),
+     feed int,
      recommendations VARCHAR,
      has_recommendations boolean,
      pet_walking_status VARCHAR(20),
+     exact_activity int,
      FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE,
      FOREIGN KEY (breed_id) REFERENCES breeds(id) ON DELETE SET NULL
 );

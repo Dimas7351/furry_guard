@@ -48,6 +48,9 @@ public class Pet {
     @Column(name = "activity_level")
     private String activityLevel;
 
+    @Column(name = "feed")
+    private Integer feed;
+
     @Column(name = "recommendations")
     private String recommendations;
 
@@ -59,6 +62,9 @@ public class Pet {
     @Enumerated(EnumType.STRING)
     @Column(name = "pet_walking_status")
     private PetWalkingStatus petWalkingStatus;
+
+    @Column(name = "exact_activity")
+    private Integer exactActivity;
 
     @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
