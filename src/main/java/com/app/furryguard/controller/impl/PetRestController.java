@@ -6,6 +6,7 @@ import com.app.furryguard.entity.dto.*;
 import com.app.furryguard.entity.dto.petDtos.GetAllPetsWithParticularWalkingStatusDto;
 import com.app.furryguard.entity.dto.petDtos.GetPetDto;
 import com.app.furryguard.entity.dto.petDtos.PetCreateDto;
+import com.app.furryguard.entity.dto.petDtos.UpdatePetDto;
 import com.app.furryguard.service.PetService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -40,9 +41,12 @@ public class PetRestController implements PetResource {
         return petService.createPet(petCreateDto);
     }
 
-    @GetMapping("/{petId}")
     public GetPetDto getPet(@PathVariable Long petId) {
         return petService.getPet(petId);
+    }
+
+    public Pet updatePet(Long petId, UpdatePetDto updatePetDto) {
+        return petService.updatePet(petId, updatePetDto);
     }
 
     @Override

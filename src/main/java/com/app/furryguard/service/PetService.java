@@ -6,10 +6,7 @@ import com.app.furryguard.entity.Pet;
 import com.app.furryguard.entity.User;
 import com.app.furryguard.entity.Vaccination;
 import com.app.furryguard.entity.dto.*;
-import com.app.furryguard.entity.dto.petDtos.AgeDto;
-import com.app.furryguard.entity.dto.petDtos.GetAllPetsWithParticularWalkingStatusDto;
-import com.app.furryguard.entity.dto.petDtos.GetPetDto;
-import com.app.furryguard.entity.dto.petDtos.PetCreateDto;
+import com.app.furryguard.entity.dto.petDtos.*;
 import com.app.furryguard.enums.ActivityLevel;
 import com.app.furryguard.enums.PetWalkingStatus;
 import com.app.furryguard.enums.VaccinationType;
@@ -89,6 +86,30 @@ public class PetService {
                 .feed(pet.getFeed())
                 .exactActivity(pet.getExactActivity())
                 .build();
+    }
+
+    public Pet updatePet(Long petId, UpdatePetDto updatePetDto) {
+        Pet pet = petRepository.findById(petId)
+                .orElseThrow(() -> new InvalidCredentialsException("Pet not found"));
+
+        if (updatePetDto.getAge() != null) {
+            pet.setAge(updatePetDto.getAge());
+        }
+        if (updatePetDto.getWeight() != null) {
+            pet.setWeight(updatePetDto.getWeight());
+        }
+        if (updatePetDto.getDateOfBirth() != null) {
+            pet.setDateOfBirth(updatePetDto.getDateOfBirth());
+        }
+        if (updatePetDto.getFeed() != null) {
+            pet.setFeed(updatePetDto.getFeed());
+        }
+        if (updatePetDto.getExactActivity() != null) {
+            pet.setExactActivity(updatePetDto.getExactActivity());
+        }
+
+        petRepository.save(pet);
+        return pet;
     }
 
     public List<String> searchBreedByPattern(String pattern){

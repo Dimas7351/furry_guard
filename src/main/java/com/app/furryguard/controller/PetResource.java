@@ -5,6 +5,7 @@ import com.app.furryguard.entity.dto.*;
 import com.app.furryguard.entity.dto.petDtos.GetAllPetsWithParticularWalkingStatusDto;
 import com.app.furryguard.entity.dto.petDtos.GetPetDto;
 import com.app.furryguard.entity.dto.petDtos.PetCreateDto;
+import com.app.furryguard.entity.dto.petDtos.UpdatePetDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -33,6 +34,14 @@ public interface PetResource {
     )
     @GetMapping("/{petId}")
     GetPetDto getPet(@PathVariable Long petId);
+
+    @Operation(
+            summary = "Изменение данных о питмоце",
+            description = "Изменение данных, требующихся для генерации рекомендаций"
+    )
+    @PostMapping("/update/{petId}")
+    Pet updatePet(@PathVariable Long petId,
+                  @RequestBody UpdatePetDto updatePetDto);
 
     @Operation(
             summary = "Поиск породы",
