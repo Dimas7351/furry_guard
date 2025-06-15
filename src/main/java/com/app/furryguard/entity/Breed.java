@@ -34,6 +34,9 @@ public class Breed {
     @Column(name = "avg_activity", nullable = false)
     private String avgActivity;
 
+    @Column(name = "overweight_risk")
+    private Double overweightRisk;
+
     @JsonManagedReference
     @OneToMany(mappedBy = "breedId")
     private List<Pet> pets;

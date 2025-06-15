@@ -2,9 +2,9 @@ package com.app.furryguard.service;
 
 import com.app.furryguard.config.JwtTokenProvider;
 import com.app.furryguard.entity.Breed;
+import com.app.furryguard.entity.BreedWeight;
 import com.app.furryguard.entity.Pet;
 import com.app.furryguard.entity.User;
-import com.app.furryguard.entity.Vaccination;
 import com.app.furryguard.entity.dto.*;
 import com.app.furryguard.entity.dto.petDtos.*;
 import com.app.furryguard.enums.ActivityLevel;
@@ -52,8 +52,6 @@ public class PetService {
                 .gender(petCreateDto.getGender())
                 .age(petCreateDto.getAge())
                 .activityLevel(petCreateDto.getActivityLevel().name())
-                .recommendations(generateRecommendations(petCreateDto))
-                .hasRecommendations(getRandomBoolean())
                 .petWalkingStatus(PetWalkingStatus.WANT_HOME)
                 .breedId(breed)
                 .ownerId(user)
@@ -61,16 +59,23 @@ public class PetService {
                 .exactActivity(petCreateDto.getExactActivity())
                 .build();
 
-        System.out.println(recommendationService.getWeightDifference(pet));
+        System.out.println(recommendationService.getWeightRisk(pet));
 
-        return petRepository.save(pet);
+        Pet pet2 = petRepository.save(pet);
+        GetRiskDto riskDto = recommendationService.getRiskCoef(pet2);
+        log.info(String.format("Риск ожирения = %f", riskDto.getIntegralRisk()));
+        pet2.setRecommendations(generateRecommendations(pet));
+        pet2.setHasRecommendations(riskDto.getIntegralRisk() >= 0.2);
+
+        return petRepository.save(pet2);
     }
 
     public GetPetDto getPet(Long petId) {
         Pet pet = petRepository.findById(petId)
                 .orElseThrow(() -> new InvalidCredentialsException("Pet not found"));
 
-        boolean hasRecommendations = true;
+        GetRiskDto riskDto = recommendationService.getRiskCoef(pet);
+        log.info(String.format("Риск ожирения = %f", riskDto.getIntegralRisk()));
 
         return GetPetDto.builder()
                 .name(pet.getName())
@@ -79,10 +84,10 @@ public class PetService {
                 .breed(pet.getBreedId().getName())
                 .weight(pet.getWeight())
                 .activityLevel(ActivityLevel.valueOf(pet.getActivityLevel()))
-                .recommendations(hasRecommendations ? pet.getRecommendations() : "У вашего питомца всё в порядке. Рекомендации не требуются")
+                .recommendations(generateRecommendations(pet))
                 .petWalkingStatus(pet.getPetWalkingStatus())
                 .vaccinations(generateVaccinationRecommendations(pet))
-                .hasRecommendations(hasRecommendations)
+                .hasRecommendations(riskDto.getIntegralRisk() >= 0.2)
                 .feed(pet.getFeed())
                 .exactActivity(pet.getExactActivity())
                 .build();
@@ -108,6 +113,10 @@ public class PetService {
             pet.setExactActivity(updatePetDto.getExactActivity());
         }
 
+        GetRiskDto riskDto = recommendationService.getRiskCoef(pet);
+        log.info(String.format("Риск ожирения = %f", riskDto.getIntegralRisk()));
+        pet.setRecommendations(generateRecommendations(pet));
+        pet.setHasRecommendations(riskDto.getIntegralRisk() >= 0.2);
         petRepository.save(pet);
         return pet;
     }
@@ -142,13 +151,45 @@ public class PetService {
     }
 
 
-    private String generateRecommendations(PetCreateDto petCreateDto){
+    private String generateRecommendations(Pet pet){
 
-        return String.format("У вашего питомца повышенный риск ожирения. " +
-                "Рекомендуется снизить вес до %d кг. " +
-                "Длительность ежедневных прогулок увеличить до %d минут в день. " +
-                "Кормить питомца необходимо по %d г. гипоаллергенного корма 3 раза в день.",
-                10, 90, 70);
+        Breed breed = breedRepository.findById(pet.getBreedId().getId())
+                .orElseThrow(() -> new InvalidCredentialsException("Breed not found"));
+
+        int petAge = pet.getAge().getYear()*12 + pet.getAge().getMonth();
+
+        BreedWeight necessaryBreedWeight = pet.getBreedId().getBreedWeights().stream()
+                .filter(ageWeight -> petAge >= ageWeight.getMinAgeMonths() && petAge <= ageWeight.getMaxAgeMonths())
+                .findFirst()
+                .orElse(null);
+
+
+        GetRiskDto riskDto = recommendationService.getRiskCoef(pet);
+        double integralRisk = riskDto.getIntegralRisk();
+
+        if (integralRisk < 0.2){
+            return "У вашего питомца всё в порядке. Ркомендации не требуются";
+        } else if (integralRisk >= 0.2 && integralRisk < 0.4){
+            String weightRecommedations = "";
+            String activityRecommendations = "";
+            String feedRecommedations = "";
+
+            int feedNorm = 30 * necessaryBreedWeight.getMaxWeightKg() + 70;
+
+            if (riskDto.getWeightRisk() > 0)
+                weightRecommedations = String.format("Рекомендуемый вес - %d кг. ", necessaryBreedWeight.getMaxWeightKg());
+            if (riskDto.getActivityRisk() > 0)
+                activityRecommendations = String.format("Длительность ежедневных прогулок необходимо увеличить до %d минут в день. ", 130);
+            if (riskDto.getFeedRisk() > 0)
+                feedRecommedations = String.format("У вашего питомца имеется избыток дневного рациона. Рекомендуется снизить ежедневную дозу корма до %d граммов. ", feedNorm);
+
+            return "У вашего питомца повышенный риск ожирения. " +
+                            weightRecommedations +
+                            activityRecommendations +
+                            feedRecommedations +
+                            "При возникновении вопросов проконсультируйтесь с ветеринарным врачом";
+        }
+        return "У вашего питомца серьезные отклонения! Необходима срочная консультация специалиста!";
     }
 
     private VaccinationsDto generateVaccinationRecommendations(Pet pet){
