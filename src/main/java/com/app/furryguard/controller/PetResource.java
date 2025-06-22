@@ -1,11 +1,13 @@
 package com.app.furryguard.controller;
 
+import com.app.furryguard.dto.ChangePetWalkingStatusDto;
+import com.app.furryguard.dto.WalkingAnswerDto;
+import com.app.furryguard.dto.WalkingStatusDto;
 import com.app.furryguard.entity.Pet;
-import com.app.furryguard.entity.dto.*;
-import com.app.furryguard.entity.dto.petDtos.GetAllPetsWithParticularWalkingStatusDto;
-import com.app.furryguard.entity.dto.petDtos.GetPetDto;
-import com.app.furryguard.entity.dto.petDtos.PetCreateDto;
-import com.app.furryguard.entity.dto.petDtos.UpdatePetDto;
+import com.app.furryguard.dto.petDtos.GetAllPetsWithParticularWalkingStatusDto;
+import com.app.furryguard.dto.petDtos.GetPetDto;
+import com.app.furryguard.dto.petDtos.PetCreateDto;
+import com.app.furryguard.dto.petDtos.UpdatePetDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

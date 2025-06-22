@@ -1,4 +1,4 @@
-package com.app.furryguard.entity.dto.petDtos;
+package com.app.furryguard.dto.petDtos;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;

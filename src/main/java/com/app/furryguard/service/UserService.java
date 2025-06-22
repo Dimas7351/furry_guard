@@ -17,16 +17,17 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    public static final String USER_NOT_FOUND = "пользователь не найден";
 
     public User getUser() {
         return userRepository.findUserByEmail(JwtTokenProvider.getCurrentUserEmail())
-                .orElseThrow(() -> new InvalidCredentialsException("User not found"));
+                .orElseThrow(() -> new InvalidCredentialsException(USER_NOT_FOUND));
     }
 
     public List<Pet> getPets() {
 
         User user = userRepository.findUserByEmail(JwtTokenProvider.getCurrentUserEmail())
-                .orElseThrow(() -> new InvalidCredentialsException("User not found"));
+                .orElseThrow(() -> new InvalidCredentialsException(USER_NOT_FOUND));
 
         if (user.getPets() == null)
             throw new RuntimeException("К соажелнию вы еще не добавили ни одного питомца");

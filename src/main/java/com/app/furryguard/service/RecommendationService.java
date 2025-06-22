@@ -4,7 +4,7 @@ import com.app.furryguard.entity.Breed;
 import com.app.furryguard.entity.BreedWeight;
 import com.app.furryguard.entity.Pet;
 import com.app.furryguard.entity.Vaccination;
-import com.app.furryguard.entity.dto.petDtos.GetRiskDto;
+import com.app.furryguard.dto.petDtos.GetRiskDto;
 import com.app.furryguard.enums.VaccinationType;
 import com.app.furryguard.repository.BreedRepository;
 import com.app.furryguard.repository.VaccinationRepository;

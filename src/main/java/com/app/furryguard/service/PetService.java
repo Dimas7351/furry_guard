@@ -1,12 +1,15 @@
 package com.app.furryguard.service;
 
 import com.app.furryguard.config.JwtTokenProvider;
+import com.app.furryguard.dto.ChangePetWalkingStatusDto;
+import com.app.furryguard.dto.VaccinationsDto;
+import com.app.furryguard.dto.WalkingAnswerDto;
+import com.app.furryguard.dto.WalkingStatusDto;
+import com.app.furryguard.dto.petDtos.*;
 import com.app.furryguard.entity.Breed;
 import com.app.furryguard.entity.BreedWeight;
 import com.app.furryguard.entity.Pet;
 import com.app.furryguard.entity.User;
-import com.app.furryguard.entity.dto.*;
-import com.app.furryguard.entity.dto.petDtos.*;
 import com.app.furryguard.enums.ActivityLevel;
 import com.app.furryguard.enums.PetWalkingStatus;
 import com.app.furryguard.enums.VaccinationType;
@@ -37,14 +40,16 @@ public class PetService {
     private final RecommendationService recommendationService;
     private final FileRepository fileRepository;
     private final FileMapper fileMapper;
+    public static final String BREED_NOT_FOUND = "Breed not found";
+    public static final String PET_NOT_FOUND = "Pet not found";
 
     @Transactional
     public Pet createPet(PetCreateDto petCreateDto) {
         User user = userRepository.findUserByEmail(JwtTokenProvider.getCurrentUserEmail())
-                .orElseThrow(() -> new InvalidCredentialsException("User not found"));
+                .orElseThrow(() -> new InvalidCredentialsException(UserService.USER_NOT_FOUND));
 
         Breed breed = breedRepository.findBreedByNameIgnoreCase(petCreateDto.getBreed())
-                .orElseThrow(() -> new InvalidCredentialsException("Breed not found"));
+                .orElseThrow(() -> new InvalidCredentialsException(BREED_NOT_FOUND));
 
         Pet pet = Pet.builder()
                 .name(petCreateDto.getName())
@@ -59,7 +64,7 @@ public class PetService {
                 .exactActivity(petCreateDto.getExactActivity())
                 .build();
 
-        System.out.println(recommendationService.getWeightRisk(pet));
+        log.info("risk: {}", recommendationService.getWeightRisk(pet));
 
         Pet pet2 = petRepository.save(pet);
         GetRiskDto riskDto = recommendationService.getRiskCoef(pet2);
@@ -72,7 +77,7 @@ public class PetService {
 
     public GetPetDto getPet(Long petId) {
         Pet pet = petRepository.findById(petId)
-                .orElseThrow(() -> new InvalidCredentialsException("Pet not found"));
+                .orElseThrow(() -> new InvalidCredentialsException(PET_NOT_FOUND));
 
         GetRiskDto riskDto = recommendationService.getRiskCoef(pet);
         log.info(String.format("Риск ожирения = %f", riskDto.getIntegralRisk()));
@@ -95,7 +100,7 @@ public class PetService {
 
     public Pet updatePet(Long petId, UpdatePetDto updatePetDto) {
         Pet pet = petRepository.findById(petId)
-                .orElseThrow(() -> new InvalidCredentialsException("Pet not found"));
+                .orElseThrow(() -> new InvalidCredentialsException(PET_NOT_FOUND));
 
         if (updatePetDto.getAge() != null) {
             pet.setAge(updatePetDto.getAge());
@@ -133,7 +138,7 @@ public class PetService {
     @Transactional
     public WalkingAnswerDto changePetWalkingStatus(ChangePetWalkingStatusDto changePetWalkingStatusDto){
         Pet pet = petRepository.findById(changePetWalkingStatusDto.getPetId())
-                .orElseThrow(() -> new InvalidCredentialsException("Pet not found"));
+                .orElseThrow(() -> new InvalidCredentialsException(PET_NOT_FOUND));
 
         pet.setPetWalkingStatus(changePetWalkingStatusDto.getPetWalkingStatus());
         petRepository.save(pet);
@@ -154,7 +159,7 @@ public class PetService {
     private String generateRecommendations(Pet pet){
 
         Breed breed = breedRepository.findById(pet.getBreedId().getId())
-                .orElseThrow(() -> new InvalidCredentialsException("Breed not found"));
+                .orElseThrow(() -> new InvalidCredentialsException(BREED_NOT_FOUND));
 
         int petAge = pet.getAge().getYear()*12 + pet.getAge().getMonth();
 

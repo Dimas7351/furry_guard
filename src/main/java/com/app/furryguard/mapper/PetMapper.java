@@ -2,7 +2,7 @@ package com.app.furryguard.mapper;
 
 
 import com.app.furryguard.entity.Pet;
-import com.app.furryguard.entity.dto.petDtos.GetAllPetsWithParticularWalkingStatusDto;
+import com.app.furryguard.dto.petDtos.GetAllPetsWithParticularWalkingStatusDto;
 import com.app.furryguard.enums.ActivityLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

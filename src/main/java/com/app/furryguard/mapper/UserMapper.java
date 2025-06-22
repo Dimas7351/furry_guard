@@ -2,7 +2,7 @@ package com.app.furryguard.mapper;
 
 
 import com.app.furryguard.entity.User;
-import com.app.furryguard.entity.dto.userDtos.UserShortDto;
+import com.app.furryguard.dto.userDtos.UserShortDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
