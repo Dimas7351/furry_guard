@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Tag(name = "AuthController", description = "Операции, связанные с регистрацией и авторизацией пользователей")
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 public interface AuthResource {
 
     @Operation(

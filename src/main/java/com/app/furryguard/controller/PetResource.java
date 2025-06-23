@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Tag(name = "PetController", description = "Операции, связанные с питомцами")
-@RequestMapping("/pet")
+@RequestMapping("/api/v1/pet")
 public interface PetResource {
 
     @Operation(

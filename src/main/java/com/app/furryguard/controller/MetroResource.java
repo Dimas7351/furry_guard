@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Tag(name = "MetroController", description = "Операции, связанные с метро")
-@RequestMapping("/metro")
+@RequestMapping("/api/v1/metro")
 public interface MetroResource {
 
     @Operation(

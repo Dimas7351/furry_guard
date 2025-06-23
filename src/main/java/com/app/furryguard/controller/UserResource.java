@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Tag(name = "UserController", description = "Операции, связанные с пользователями")
-@RequestMapping("/user")
+@RequestMapping("/api/v1/user")
 public interface UserResource {
 
     @Operation(

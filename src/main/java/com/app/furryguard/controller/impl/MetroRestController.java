@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
 @Slf4j
+@RestController
 @RequiredArgsConstructor
 public class MetroRestController implements MetroResource {
 

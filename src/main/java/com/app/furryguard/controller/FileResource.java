@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Tag(name = "FileController", description = "Операции, связанные с файлами")
-@RequestMapping("/file")
+@RequestMapping("/api/v1/file")
 public interface FileResource {
 
     @Operation(

@@ -36,5 +36,4 @@ public class UserShortDto {
     @Column(name = "date_of_birth")
     @Temporal(TemporalType.DATE)
     private LocalDate dateOfBirth;
-
 }
