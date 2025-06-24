@@ -17,7 +17,7 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
-    public static final String USER_NOT_FOUND = "пользователь не найден";
+    protected static final String USER_NOT_FOUND = "пользователь не найден";
 
     public User getUser() {
         return userRepository.findUserByEmail(JwtTokenProvider.getCurrentUserEmail())

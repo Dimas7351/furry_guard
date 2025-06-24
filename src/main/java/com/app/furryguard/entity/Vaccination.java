@@ -39,9 +39,9 @@ public class Vaccination {
     @Column(name = "vaccination_type", nullable = false)
     @Schema(
             name = "VaccinationType",
-            example = "RABIES",
+            example = "D",
             requiredMode = Schema.RequiredMode.REQUIRED,
-            description = "Type of vaccination, e.g., Инфекционный гепатит, Чума плотоядных."
+            description = "Type of vaccination, e.g., D, H, P, PI, L."
     )
     private VaccinationType vaccinationType;
 

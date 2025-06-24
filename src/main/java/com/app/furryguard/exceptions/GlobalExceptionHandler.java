@@ -69,14 +69,6 @@ public class GlobalExceptionHandler {
                 .body(HttpStatus.valueOf(500).getReasonPhrase() + " : " + ex.getMessage());
     }
 
-//        @ExceptionHandler(MethodArgumentNotValidException.class)
-//        public ResponseEntity<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-//            log.error(ex.getMessage(), ex.getCause());
-//            return ResponseEntity
-//                    .status(HttpStatus.BAD_REQUEST)
-//                    .body(HttpStatus.BAD_REQUEST.getReasonPhrase() + " : " + ex.getMessage());
-//        }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, List<String>> errors = new HashMap<>();

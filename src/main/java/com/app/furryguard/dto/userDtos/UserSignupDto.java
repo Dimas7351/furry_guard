@@ -21,7 +21,6 @@ import java.time.LocalDate;
 @Schema(name = "UserSignupDto")
 public class UserSignupDto {
 
-
     private String firstName;
 
     private String surname;

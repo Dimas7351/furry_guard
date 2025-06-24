@@ -29,7 +29,6 @@ public class Breed {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(
             name = "id",
-            example = "141",
             requiredMode = Schema.RequiredMode.REQUIRED,
             description = "Unique breed identifier."
     )
@@ -39,7 +38,7 @@ public class Breed {
     @Size(min = 1, max = 100, message = "Name should be between 1 and 100 characters.")
     @Schema(
             name = "name",
-            example = "Pit-bull",
+            example = "Австралийский келпи",
             requiredMode = Schema.RequiredMode.REQUIRED,
             description = "Breed name. Should be between 1 and 100 characters."
     )
@@ -50,9 +49,9 @@ public class Breed {
     @NotBlank(message = "Average activity cannot be blank.")
     @Schema(
         name = "avgActivity",
-        example = "High",
+        example = "HIGH",
         requiredMode = Schema.RequiredMode.REQUIRED,
-        description = "Average activity level. Examples: Low, Medium, High."
+        description = "Average activity level. Examples: LOW, MEDIUM, HIGH."
     )
     private String avgActivity;
 

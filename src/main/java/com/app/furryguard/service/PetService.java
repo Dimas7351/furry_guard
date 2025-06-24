@@ -40,8 +40,8 @@ public class PetService {
     private final RecommendationService recommendationService;
     private final FileRepository fileRepository;
     private final FileMapper fileMapper;
-    public static final String BREED_NOT_FOUND = "Breed not found";
-    public static final String PET_NOT_FOUND = "Pet not found";
+    protected static final String BREED_NOT_FOUND = "Breed not found";
+    protected static final String PET_NOT_FOUND = "Pet not found";
 
     @Transactional
     public Pet createPet(PetCreateDto petCreateDto) {
