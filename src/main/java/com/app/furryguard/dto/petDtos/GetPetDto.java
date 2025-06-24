@@ -1,7 +1,7 @@
-package com.app.furryguard.entity.dto.petDtos;
+package com.app.furryguard.dto.petDtos;
 
-import com.app.furryguard.entity.dto.VaccinationsDto;
-import com.app.furryguard.entity.dto.fileDtos.GetFileDto;
+import com.app.furryguard.dto.VaccinationsDto;
+import com.app.furryguard.dto.fileDtos.GetFileDto;
 import com.app.furryguard.enums.ActivityLevel;
 import com.app.furryguard.enums.Gender;
 import com.app.furryguard.enums.PetWalkingStatus;

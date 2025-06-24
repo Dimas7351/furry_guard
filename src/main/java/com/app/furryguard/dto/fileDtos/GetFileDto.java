@@ -1,4 +1,4 @@
-package com.app.furryguard.entity.dto.fileDtos;
+package com.app.furryguard.dto.fileDtos;
 
 import com.app.furryguard.enums.FileType;
 import io.swagger.v3.oas.annotations.media.Schema;

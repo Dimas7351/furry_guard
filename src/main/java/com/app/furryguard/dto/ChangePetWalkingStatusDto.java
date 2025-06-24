@@ -1,4 +1,4 @@
-package com.app.furryguard.entity.dto;
+package com.app.furryguard.dto;
 
 import com.app.furryguard.enums.PetWalkingStatus;
 import io.swagger.v3.oas.annotations.media.Schema;

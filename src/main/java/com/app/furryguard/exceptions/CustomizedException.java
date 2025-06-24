@@ -5,5 +5,9 @@ import org.springframework.http.HttpStatus;
 
 import java.time.ZonedDateTime;
 
-public record CustomizedException(String message, HttpStatus httpStatus, ZonedDateTime timestamp) {
+public record CustomizedException(
+        String message,
+        HttpStatus httpStatus,
+        ZonedDateTime timestamp
+) {
 }

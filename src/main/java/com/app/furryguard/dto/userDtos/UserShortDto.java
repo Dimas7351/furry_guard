@@ -1,4 +1,4 @@
-package com.app.furryguard.entity.dto.userDtos;
+package com.app.furryguard.dto.userDtos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -36,5 +36,4 @@ public class UserShortDto {
     @Column(name = "date_of_birth")
     @Temporal(TemporalType.DATE)
     private LocalDate dateOfBirth;
-
 }

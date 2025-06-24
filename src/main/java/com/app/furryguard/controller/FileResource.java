@@ -1,7 +1,7 @@
 package com.app.furryguard.controller;
 
 import com.app.furryguard.entity.File;
-import com.app.furryguard.entity.dto.fileDtos.AddFileDto;
+import com.app.furryguard.dto.fileDtos.AddFileDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Tag(name = "FileController", description = "Операции, связанные с файлами")
-@RequestMapping("/file")
+@RequestMapping("/api/v1/file")
 public interface FileResource {
 
     @Operation(

@@ -2,8 +2,8 @@ package com.app.furryguard.service;
 
 import com.app.furryguard.config.JwtTokenProvider;
 import com.app.furryguard.entity.User;
-import com.app.furryguard.entity.dto.userDtos.UserLoginDto;
-import com.app.furryguard.entity.dto.userDtos.UserSignupDto;
+import com.app.furryguard.dto.userDtos.UserLoginDto;
+import com.app.furryguard.dto.userDtos.UserSignupDto;
 import com.app.furryguard.exceptions.EmailAlreadyExistsException;
 import com.app.furryguard.exceptions.InvalidCredentialsException;
 import com.app.furryguard.repository.UserRepository;

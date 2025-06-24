@@ -13,17 +13,22 @@ import lombok.NoArgsConstructor;
 import java.time.Instant;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Builder
-@Schema(description = "Таблица с файлами")
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "files")
+@Schema(description = "File Entity")
 public class File {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(
+            name = "id", example = "141",
+            requiredMode = Schema.RequiredMode.REQUIRED,
+            description = "Unique File identifier."
+    )
     private Long id;
 
     @Column(name = "file_name", nullable = false)
@@ -46,5 +51,4 @@ public class File {
     @JoinColumn(name = "pet_id", referencedColumnName = "id")
     @JsonBackReference
     private Pet petId;
-
 }

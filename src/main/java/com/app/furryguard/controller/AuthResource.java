@@ -1,7 +1,7 @@
 package com.app.furryguard.controller;
 
-import com.app.furryguard.entity.dto.userDtos.UserLoginDto;
-import com.app.furryguard.entity.dto.userDtos.UserSignupDto;
+import com.app.furryguard.dto.userDtos.UserLoginDto;
+import com.app.furryguard.dto.userDtos.UserSignupDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Tag(name = "AuthController", description = "Операции, связанные с регистрацией и авторизацией пользователей")
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 public interface AuthResource {
 
     @Operation(

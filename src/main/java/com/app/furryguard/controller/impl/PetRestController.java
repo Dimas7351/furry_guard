@@ -1,12 +1,14 @@
 package com.app.furryguard.controller.impl;
 
 import com.app.furryguard.controller.PetResource;
+import com.app.furryguard.dto.ChangePetWalkingStatusDto;
+import com.app.furryguard.dto.WalkingAnswerDto;
+import com.app.furryguard.dto.WalkingStatusDto;
 import com.app.furryguard.entity.Pet;
-import com.app.furryguard.entity.dto.*;
-import com.app.furryguard.entity.dto.petDtos.GetAllPetsWithParticularWalkingStatusDto;
-import com.app.furryguard.entity.dto.petDtos.GetPetDto;
-import com.app.furryguard.entity.dto.petDtos.PetCreateDto;
-import com.app.furryguard.entity.dto.petDtos.UpdatePetDto;
+import com.app.furryguard.dto.petDtos.GetAllPetsWithParticularWalkingStatusDto;
+import com.app.furryguard.dto.petDtos.GetPetDto;
+import com.app.furryguard.dto.petDtos.PetCreateDto;
+import com.app.furryguard.dto.petDtos.UpdatePetDto;
 import com.app.furryguard.service.PetService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +19,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
 @Slf4j
+@RestController
 @RequiredArgsConstructor
 public class PetRestController implements PetResource {
 

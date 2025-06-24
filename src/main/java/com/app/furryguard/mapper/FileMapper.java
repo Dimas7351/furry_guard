@@ -3,8 +3,8 @@ package com.app.furryguard.mapper;
 
 import com.app.furryguard.entity.File;
 import com.app.furryguard.entity.Pet;
-import com.app.furryguard.entity.dto.fileDtos.AddFileDto;
-import com.app.furryguard.entity.dto.fileDtos.GetFileDto;
+import com.app.furryguard.dto.fileDtos.AddFileDto;
+import com.app.furryguard.dto.fileDtos.GetFileDto;
 import com.app.furryguard.exceptions.InvalidCredentialsException;
 import com.app.furryguard.repository.PetRepository;
 import lombok.RequiredArgsConstructor;

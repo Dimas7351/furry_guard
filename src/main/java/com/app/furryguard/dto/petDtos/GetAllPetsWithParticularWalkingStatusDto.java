@@ -1,6 +1,6 @@
-package com.app.furryguard.entity.dto.petDtos;
+package com.app.furryguard.dto.petDtos;
 
-import com.app.furryguard.entity.dto.userDtos.UserShortDto;
+import com.app.furryguard.dto.userDtos.UserShortDto;
 import com.app.furryguard.enums.ActivityLevel;
 import com.app.furryguard.enums.Gender;
 import com.app.furryguard.enums.PetWalkingStatus;

@@ -2,7 +2,7 @@ package com.app.furryguard.controller.impl;
 
 import com.app.furryguard.controller.FileResource;
 import com.app.furryguard.entity.File;
-import com.app.furryguard.entity.dto.fileDtos.AddFileDto;
+import com.app.furryguard.dto.fileDtos.AddFileDto;
 import com.app.furryguard.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
 @Slf4j
+@RestController
 @RequiredArgsConstructor
 public class FileRestController implements FileResource {
 
